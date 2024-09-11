@@ -1,0 +1,25 @@
+- name: User del
+  hosts: SERVER
+
+  become: yes
+
+  vars:
+    user: pag
+  tasks:
+    - name: delete users
+      user:
+        name: "{{ user }}"
+        state: absent
+        remove: yes
+
+
+    - name: delete line in sudores
+      lineinfile:
+        path: /etc/sudoers
+#        regexp: "{{ user }}	ALL=(ALL)	ALL"
+        regexp: "{{ user }}.ALL*"
+        state: absent
+
+    - name: Debag vers
+      debug:
+        msg: "{{ user }}"
